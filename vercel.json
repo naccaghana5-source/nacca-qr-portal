@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://vtofgouhccgmfwhfpvki.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0b2Znb3VoY2NnbWZ3aGZwdmtpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4NzY5MzgsImV4cCI6MjA5NzQ1MjkzOH0.kPEAHBqmRJZVxpeG2KRTu6iwNyVR29KoBLnPIcqeE9s",
+    "SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0b2Znb3VoY2NnbWZ3aGZwdmtpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MTg3NjkzOCwiZXhwIjoyMDk3NDUyOTM4fQ.hbSPG7ipRBTlZgsBOPDo7XkJA3WzfEILOpmudH_ZczM",
+    "APP_URL": "https://nacca-qr-portal.vercel.app"
+  }
+}
