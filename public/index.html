@@ -379,7 +379,7 @@
 
 // Password is stored encoded (decodes to "NaCCA2025")
 // This hides it from plain view in the source code
-const ADMIN_PASSWORD = atob("TmFDQ0EyMDI1");
+const ADMIN_PASSWORD = 'NaCCA2025Secure!';
 
 const APP_VERSION = "3.0";
 const CSV_VERSION = Date.now();
@@ -501,13 +501,6 @@ function adminLogin() {
         alert('❌ Incorrect password.');
         addAuditLog('Failed Login Attempt', 'Incorrect password');
     }
-}
-        localStorage.setItem('nacca_admin_logged_in', 'true');
-        sessionStorage.setItem('admin_session', 'active');
-        addAuditLog('Admin Login', 'Logged in successfully');
-        alert('✅ Login successful!');
-        location.reload();
-    } else { alert('❌ Incorrect password.'); addAuditLog('Failed Login Attempt', 'Incorrect password'); }
 }
 
 function changeAdminPassword() {
