@@ -1,12 +1,24 @@
-import { supabaseAdmin as supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 
 export default async function VerifyPage({ params }: { params: { id: string } }) {
   const { id } = params;
   
+  // Check if supabaseAdmin is available
+  if (!supabaseAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-yellow-50 p-4">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-yellow-600">⚠️ Configuration Error</h1>
+          <p className="mt-2 text-gray-600">Database connection is not configured.</p>
+        </div>
+      </div>
+    );
+  }
+  
   console.log('🔍 Looking for book with stable_id:', id);
   
   // Method 1: Search by stable_id (exact match)
-  const { data: byStableId, error: err1 } = await supabase
+  const { data: byStableId, error: err1 } = await supabaseAdmin
     .from('books')
     .select('*')
     .eq('stable_id', id)
@@ -18,7 +30,7 @@ export default async function VerifyPage({ params }: { params: { id: string } })
   // Method 2: If not found, try searching by book_id
   if (!book) {
     console.log('📚 Not found by stable_id, trying book_id...');
-    const { data: byBookId, error: err2 } = await supabase
+    const { data: byBookId, error: err2 } = await supabaseAdmin
       .from('books')
       .select('*')
       .eq('book_id', id)
