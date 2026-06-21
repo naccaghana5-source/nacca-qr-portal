@@ -379,7 +379,7 @@
 
 // Password is stored encoded (decodes to "NaCCA2025")
 // This hides it from plain view in the source code
-const ADMIN_PASSWORD = 'NaCCA2025Secure!';
+const ADMIN_PASSWORD = window.__ENV?.NEXT_PUBLIC_ADMIN_PASSWORD;
 
 const APP_VERSION = "3.0";
 const CSV_VERSION = Date.now();
@@ -488,18 +488,17 @@ function isAuthenticated() { return localStorage.getItem('nacca_admin_logged_in'
 
 function adminLogin() {
     const password = prompt("🔐 Enter Admin Password:");
-    // Get password from environment variable or use hardcoded fallback
-    const expectedPassword = window.__ENV?.NEXT_PUBLIC_ADMIN_PASSWORD || 'NaCCA2025Secure!';
+    const expectedPassword = window.__ENV?.NEXT_PUBLIC_ADMIN_PASSWORD;
+    
+    if (!expectedPassword) {
+        alert('⚠️ Admin password not configured. Please contact the administrator.');
+        return;
+    }
     
     if (password === expectedPassword) {
-        localStorage.setItem('nacca_admin_logged_in', 'true');
-        sessionStorage.setItem('admin_session', 'active');
-        addAuditLog('Admin Login', 'Logged in successfully');
-        alert('✅ Login successful!');
-        location.reload();
+        // ... success
     } else {
-        alert('❌ Incorrect password.');
-        addAuditLog('Failed Login Attempt', 'Incorrect password');
+        // ... failed
     }
 }
 
