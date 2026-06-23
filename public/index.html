@@ -627,14 +627,26 @@ function showVerificationModal(book) {
 }
 
 function updateAdminButtons() {
-    const loginContainer = document.getElementById('adminLoginBtnContainer'), qrPanel = document.getElementById('adminQRPanelModern'), analyticsCard = document.getElementById('analyticsCard');
+    const loginContainer = document.getElementById('adminLoginBtnContainer');
+    const qrPanel = document.getElementById('adminQRPanelModern');
+    const analyticsCard = document.getElementById('analyticsCard');
+    
     if (isAuthenticated()) {
-        loginContainer.innerHTML = `<div style="display:flex; gap:10px; align-items:center;"><span style="background:#1B511610; padding:5px 12px; border-radius:40px; font-size:0.8rem;"><i class="fas fa-user-shield"></i> Admin <span class="role-badge">super_admin</span></span><button class="admin-logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button></div>`;
+        loginContainer.innerHTML = `<div style="display:flex; gap:10px; align-items:center;">
+            <span style="background:#1B511610; padding:5px 12px; border-radius:40px; font-size:0.8rem;">
+                <i class="fas fa-user-shield"></i> Admin
+                <span class="role-badge">super_admin</span>
+            </span>
+            <button class="admin-logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>`;
         if (qrPanel) qrPanel.style.display = 'block';
         if (analyticsCard) analyticsCard.style.display = 'block';
         loadAnalyticsFromGoogleSheets();
     } else {
-        loginContainer.innerHTML = '<button class="admin-login-btn" onclick="adminLogin()"><i class="fas fa-user-shield"></i> Admin Login</button>';
+        // 🔑 THE FIX: One line, proper quotes
+        loginContainer.innerHTML = '<a href="/login.html" class="admin-login-btn"><i class="fas fa-user-shield"></i> Admin Login</a>';
         if (qrPanel) qrPanel.style.display = 'none';
         if (analyticsCard) analyticsCard.style.display = 'none';
     }
