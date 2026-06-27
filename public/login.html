@@ -147,33 +147,48 @@
   </div>
 
   <script>
-    const ADMIN_PASSWORD = window.__ENV?.NEXT_PUBLIC_ADMIN_PASSWORD || 'NaCCA2025Secure!';
-
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-
+  
       const password = document.getElementById('password').value;
       const messageDiv = document.getElementById('message');
       const loginBtn = document.getElementById('loginBtn');
-
+  
       loginBtn.disabled = true;
       loginBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Verifying...';
-
-      // Check password
-      if (password === ADMIN_PASSWORD) {
-        // Set session
-        localStorage.setItem('nacca_admin_logged_in', 'true');
-        sessionStorage.setItem('admin_session', 'active');
-
-        messageDiv.className = 'message success';
-        messageDiv.innerHTML = '✅ Login successful! Redirecting...';
-
-        setTimeout(() => {
-          window.location.href = '/admin.html';
-        }, 1000);
-      } else {
+  
+      try {
+        // Call the serverless function
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ password })
+        });
+  
+        const result = await response.json();
+  
+        if (result.success) {
+  localStorage.setItem('nacca_admin_logged_in', 'true');
+  sessionStorage.setItem('admin_session', 'active');
+  
+  // Store user info
+  sessionStorage.setItem('user_name', result.user?.name || 'Admin');
+  sessionStorage.setItem('user_role', result.user?.role || 'admin');
+          
+          setTimeout(() => {
+            window.location.href = '/admin.html';
+          }, 1000);
+        } else {
+          messageDiv.className = 'message error';
+          messageDiv.innerHTML = '❌ ' + (result.error || 'Incorrect password.');
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+        }
+      } catch (error) {
         messageDiv.className = 'message error';
-        messageDiv.innerHTML = '❌ Incorrect password. Please try again.';
+        messageDiv.innerHTML = '❌ Connection error. Please try again.';
         loginBtn.disabled = false;
         loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
       }
